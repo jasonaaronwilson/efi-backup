@@ -10,12 +10,13 @@ LOG_FILE="$BACKUP_DIR/log.txt"
 
 mkdir -p "$BACKUP_DIR"
 touch $LOG_FILE
+echo "======================================================================" | tee -a $LOG_FILE
 date -Is | tee -a $LOG_FILE
 
 # Calculate SHA-256 checksum
 CHECKSUM=$(sudo sha256sum "$EFI_PARTITION" | awk '{print $1}')
 BACKUP_FILE="$BACKUP_DIR/efi-backup-$CHECKSUM.img"
-echo $CHECKSUM >$LOG_FILE
+echo $CHECKSUM | tee -a $LOG_FILE
 
 # Check if backup already exists
 if [ -f "$BACKUP_FILE" ]; then
